@@ -23,5 +23,7 @@ void setup() {
 void loop() {
   receiveData();
   combineArrays(pieces1, pieces2, pieces);
+  checkinput();
   ArrayToLeds(pieces);
+  
 }
