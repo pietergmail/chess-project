@@ -26,7 +26,7 @@ void ArrayToLeds(int p[8][8]) {
       }
     }
   }
-  blink(1, 1);
+  // blink(1, 1);
 }
 
 // blink the currently selected piece

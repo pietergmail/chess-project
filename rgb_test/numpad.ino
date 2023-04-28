@@ -3,11 +3,12 @@
 const byte ROWS = 4; //four rows
 const byte COLS = 4; //four columns
 
+// rotated for some reason, not sure why
 char keys[ROWS][COLS] = {
-  {'1','2','3','4'},
-  {'5','6','7','8'},
-  {'A','B','C','D'},
-  {'E','F','G','H'}
+  {'1','5','A','E'},
+  {'2','6','B','F'},
+  {'3','7','C','G'},
+  {'4','8','D','H'}
 };
 
 byte rowPins[ROWS] = {9, 8, 7, 6}; //connect to the row pinouts of the keypad
@@ -16,13 +17,27 @@ byte colPins[COLS] = {5, 4, 3, 2}; //connect to the column pinouts of the keypad
 //Create an object of keypad
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
-  
-void checkinput(){
-  char key = keypad.getKey();// Read the key
-  
-  // Print if key pressed
-  if (key){
-    Serial.print("Key Pressed : ");
-    Serial.println(key);
+// get's the 2 chess coordinates
+void checkinput() {
+  char key1 = '\0';
+  char key2 = '\0';
+  while(key1 == '\0' || (key1 < '0' || key1 > '9')) {
+    key1 = keypad.getKey(); // Read the first key
   }
+
+  while(key2 == '\0' || (key2 < 'A' || key2 > 'H')) {
+    key2 = keypad.getKey(); // Read the second key
+  }
+
+  char coordinates[2] = {key1, key2};
+
+  // Print the two keys together
+  Serial.print("Coordinate: ");
+  for(int i=0; i<2; i++) {
+    Serial.print(coordinates[i]);
+    Serial.print(" ");
+  }
+  Serial.println();
+
+  // Send the characters to the arduino mega
 }
