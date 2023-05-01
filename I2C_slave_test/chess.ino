@@ -50,7 +50,7 @@ void movePiece(char startPos[], char endPos[]) {
   chessCoordsToArray(startPos, coo1);
   chessCoordsToArray(endPos, coo2);
 
-  int piece = chessBoard[coo1[0]][coo1[1]];
+  int piece = chessBoard[coo1[1]][coo1[0]];
   Serial.println(coo1[0]);
   Serial.println(coo1[1]);
   
