@@ -20,6 +20,7 @@ void ArrayToLeds(int p[8][8]) {
 
       // check which pieces is at set location
       switch (value) {
+        case 0: { leds[0][cor] = CRGB(0, 0, 0); break;} // Black pawn
         case 1: { leds[0][cor] = CRGB::Red; break;} // Black pawn
         case 2: { leds[0][cor] = CRGB::Blue; break;} // Black rook
         case 3: { leds[0][cor] = CRGB(255, 70, 0); break;} // Black knight
