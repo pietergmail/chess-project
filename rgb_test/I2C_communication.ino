@@ -43,6 +43,8 @@ void combineArrays(int arr1[4][8], int arr2[4][8], int arr3[8][8]) {
 }
 
 void sendData() {
+  Serial.println(coordinates[0]);
+  Serial.println(coordinates[1]);
   Wire.beginTransmission(I2C_ADDRESS); // transmit to device with address 0x08
   Wire.write(coordinates, sizeof(coordinates)); // send the array over I2C
   Wire.endTransmission(); // stop transmitting

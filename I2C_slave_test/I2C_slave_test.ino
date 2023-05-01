@@ -4,12 +4,35 @@
 // Define the I2C address of the receiver
 const int I2C_ADDRESS = 0x08; // Replace with the actual I2C address of the receiver
 
-// Define the size of the array
-const int ARRAY_ROWS = 4;
-const int ARRAY_COLS = 8;
+// input arrays with chess notation
+char arr1[2]; // first array to store received data
+char arr2[2]; // second array to store received data
 
-// Define the array to be sent
-byte myArray[ARRAY_ROWS][ARRAY_COLS];
+// coordinates with normal notaions
+int coo1[2];
+int coo2[2];
+
+// flag to determine which array to use
+bool useArr1 = true; 
+
+// Define the starting chess board
+int chessBoard[8][8] = {
+  {2, 3, 4, 5, 6, 4, 3, 2},
+  {1, 1, 1, 1, 1, 1, 1, 1},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {7, 7, 7, 7, 7, 7, 7, 7},
+  {8, 9, 10, 11, 12, 10, 9, 8}
+};
+
+// Define the arrays that will be send (board is to big needs to be split into 2
+int myArray1[4][8];
+int myArray2[4][8];
+
+// flag to knowh wich array to send
+int currentArray = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -17,13 +40,8 @@ void setup() {
   Wire.begin(I2C_ADDRESS);
   // Define callback functions for I2C events
   Wire.onRequest(requestEvent);
-  
-  // Generate random values for the array
-  generateRandomArray();
+  Wire.onReceive(receiveEvent);
 }
 
 void loop() {
-  generateRandomArray();
-  delay(1000);
-  // Do nothing
 }

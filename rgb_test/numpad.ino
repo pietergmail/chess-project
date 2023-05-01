@@ -21,15 +21,16 @@ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 void checkinput() {
   char key1 = '\0';
   char key2 = '\0';
-  while(key1 == '\0' || (key1 < '0' || key1 > '9')) {
+  while(key1 == '\0' || (key1 < 'A' || key1 > 'H')) {
     key1 = keypad.getKey(); // Read the first key
   }
 
-  while(key2 == '\0' || (key2 < 'A' || key2 > 'H')) {
+  while(key2 == '\0' || (key2 < '0' || key2 > '8')) {
     key2 = keypad.getKey(); // Read the second key
   }
 
-  char coordinates[2] = {key1, key2};
+  coordinates[0] = key1;
+  coordinates[1] = key2;
 
   // Print the two keys together
   Serial.print("Coordinate: ");
