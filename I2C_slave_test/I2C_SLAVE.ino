@@ -23,8 +23,6 @@ void requestEvent() {
 
 // I2C receive event, gets coordinates
 void receiveEvent(int bytes) {
-  Serial.println("Data received");
-  
   if (useArr1) {
     // read the data into arr1
     Wire.readBytes(arr1, sizeof(arr1));

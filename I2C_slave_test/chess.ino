@@ -3,35 +3,35 @@ void chessCoordsToArray(char* chessCoords, int* arrayCoords) {
   switch(chessCoords[0]) {
     case 'A':
     case 'a':
-      x = 0;
+      x = 7;
       break;
     case 'B':
     case 'b':
-      x = 1;
+      x = 6;
       break;
     case 'C':
     case 'c':
-      x = 2;
+      x = 5;
       break;
     case 'D':
     case 'd':
-      x = 3;
+      x = 4;
       break;
     case 'E':
     case 'e':
-      x = 4;
+      x = 3;
       break;
     case 'F':
     case 'f':
-      x = 5;
+      x = 2;
       break;
     case 'G':
     case 'g':
-      x = 6;
+      x = 1;
       break;
     case 'H':
     case 'h':
-      x = 7;
+      x = 0;
       break;
     default:
       x = -1; // invalid, will crash
@@ -47,25 +47,71 @@ void chessCoordsToArray(char* chessCoords, int* arrayCoords) {
 
 // moves the piece to the new location
 void movePiece(char startPos[], char endPos[]) {
+  Serial.print("currentplayer: ");
+  if (currentplayer){
+    Serial.println("white");
+  }else{
+    Serial.println("Black");
+  }
+
   chessCoordsToArray(startPos, coo1);
   chessCoordsToArray(endPos, coo2);
 
-  int piece = chessBoard[coo1[1]][coo1[0]];
-  Serial.println(coo1[0]);
-  Serial.println(coo1[1]);
-  
-  // empties out weirdly, actually does nothing???
-  chessBoard[coo1[1]][coo1[0]] = 0; // Remove piece from starting location
-  // is not added????
-  chessBoard[coo2[1]][coo2[0]] = piece; // Add piece to ending location
+  int originpiece = chessBoard[coo1[1]][coo1[0]];
+  int targetpiece = chessBoard[coo2[1]][coo2[0]];
 
-    for (int i = 0; i < 8; i++) {
-  // Iterate through the columns
-    for (int j = 0; j < 8; j++) {
-      // Print the element at the current row and column
-      Serial.print(chessBoard[i][j]);
-      Serial.print("\t"); // Add a tab between elements for better readability
+  // check if piece is a piece
+  if(originpiece == 0){
+    Serial.println("no piece on this position");
+  }else{
+    // check if currentpiece is of the correct player
+    if(currentPiece()){
+      if(targetpiece >=1){
+        // there is a piece on this position
+        checkCapture(originpiece, targetpiece);
+      }else{
+        // the target piece is empty
+        swap(originpiece);
+  }
+    }else{
+      Serial.println("That's one of the oponent's pieces");
     }
-  Serial.println(); // Move to the next line after each row
+  }
+}
+
+// check if currentpiece is correct for current player
+bool currentPiece(int originpiece){
+  if (!currentplayer && targetpiece >= 7 ){
+    // currentplayer is white
+    return true;
+  }else if(currentplayer && targetpiece < 7){
+    // currentplayer is black
+    return true;
+  }else{
+    return false;
+  }
+}
+
+// move led to new position
+void swap(int originpiece){
+  chessBoard[coo1[1]][coo1[0]] = 0; // Remove piece from starting location
+  chessBoard[coo2[1]][coo2[0]] = originpiece; // Add piece to ending location
+  
+  // swap player
+  currentplayer = !currentplayer;
+}
+
+// checks if the piece is capturable
+void checkCapture(int originpiece, int targetpiece){
+  if (!currentplayer && targetpiece < 7 ){
+    // currentplayer is white
+    swap(originpiece);
+    Serial.println("captured enemy piece");
+  }else if(currentplayer && targetpiece >= 7){
+    // currentplayer is black
+    swap(originpiece);
+    Serial.println("captured enemy piece");
+  }else{
+    Serial.println("can't capture your own pieces");
   }
 }

@@ -37,7 +37,7 @@ void ArrayToLeds(int p[8][8]) {
       }
     }
   }
-  FastLED.show();
+  FastLED. show();
 }
 
 // blink the currently selected piece, may need to be implemented differently

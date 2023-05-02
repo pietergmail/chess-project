@@ -1,5 +1,4 @@
 #include <Wire.h>
-#include <stdlib.h> // Required for random() function
 
 // Define the I2C address of the receiver
 const int I2C_ADDRESS = 0x08; // Replace with the actual I2C address of the receiver
@@ -15,16 +14,19 @@ int coo2[2];
 // flag to determine which array to use
 bool useArr1 = true; 
 
+// boolean to define the current player, 0 = white 1 = black
+bool currentplayer = 0;
+
 // Define the starting chess board
 int chessBoard[8][8] = {
-  {2, 3, 4, 5, 6, 4, 3, 2},
+  {2, 3, 4, 6, 5, 4, 3, 2},
   {1, 1, 1, 1, 1, 1, 1, 1},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {7, 7, 7, 7, 7, 7, 7, 7},
-  {8, 9, 10, 11, 12, 10, 9, 8}
+  {8, 9, 10, 12, 11, 10, 9, 8}
 };
 
 // Define the arrays that will be send (board is to big needs to be split into 2
