@@ -43,6 +43,9 @@ void setup() {
   // Define callback functions for I2C events
   Wire.onRequest(requestEvent);
   Wire.onReceive(receiveEvent);
+
+  // split the newly generated array in 2
+  // splitArray(chessBoard, myArray1, myArray2);
 }
 
 void loop() {

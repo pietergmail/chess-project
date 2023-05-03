@@ -48,7 +48,7 @@ void chessCoordsToArray(char* chessCoords, int* arrayCoords) {
 // moves the piece to the new location
 void movePiece(char startPos[], char endPos[]) {
   Serial.print("currentplayer: ");
-  if (currentplayer){
+  if (!currentplayer){
     Serial.println("white");
   }else{
     Serial.println("Black");
@@ -58,37 +58,12 @@ void movePiece(char startPos[], char endPos[]) {
   chessCoordsToArray(endPos, coo2);
 
   int originpiece = chessBoard[coo1[1]][coo1[0]];
-  int targetpiece = chessBoard[coo2[1]][coo2[0]];
 
-  // check if piece is a piece
-  if(originpiece == 0){
-    Serial.println("no piece on this position");
+  // check if the move is valid
+  if(checkValid(originpiece, coo1, coo2)){
+    swap(originpiece);
   }else{
-    // check if currentpiece is of the correct player
-    if(currentPiece()){
-      if(targetpiece >=1){
-        // there is a piece on this position
-        checkCapture(originpiece, targetpiece);
-      }else{
-        // the target piece is empty
-        swap(originpiece);
-  }
-    }else{
-      Serial.println("That's one of the oponent's pieces");
-    }
-  }
-}
-
-// check if currentpiece is correct for current player
-bool currentPiece(int originpiece){
-  if (!currentplayer && targetpiece >= 7 ){
-    // currentplayer is white
-    return true;
-  }else if(currentplayer && targetpiece < 7){
-    // currentplayer is black
-    return true;
-  }else{
-    return false;
+    Serial.println("error somewhere in check");
   }
 }
 

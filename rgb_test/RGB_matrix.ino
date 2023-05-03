@@ -20,15 +20,15 @@ void ArrayToLeds(int p[8][8]) {
 
       // check which pieces is at set location
       switch (value) {
-        case 0: { leds[0][cor] = CRGB(0, 0, 0); break;} // Black pawn
-        case 1: { leds[0][cor] = CRGB::Red; break;} // Black pawn
+        case 0: { leds[0][cor] = CRGB(0, 0, 0); break;} // empty
+        case 1: { leds[0][cor] = CRGB(255, 0, 0); break;} // Black pawn
         case 2: { leds[0][cor] = CRGB::Blue; break;} // Black rook
-        case 3: { leds[0][cor] = CRGB(255, 70, 0); break;} // Black knight
-        case 4: { leds[0][cor] = CRGB::Green; break;} // Black bishop
-        case 5: { leds[0][cor] = CRGB(41, 0, 90); break;} // Black queen
+        case 3: { leds[0][cor] = CRGB(128, 255, 0); break;} // Black knight
+        case 4: { leds[0][cor] = CRGB(0, 255, 0); break;} // Black bishop
+        case 5: { leds[0][cor] = CRGB(111, 0, 255); break;} // Black queen
         case 6: { leds[0][cor] = CRGB(20, 20, 20); break;} // Black king
         // white pieces use lighter variants of the black pieces
-        case 7: { leds[0][cor] = CRGB(255, 30, 0); break;} // white pawn
+        case 7: { leds[0][cor] = CRGB(255, 80, 0); break;} // white pawn
         case 8: { leds[0][cor] = CRGB(0, 239, 255); break;} // white rook
         case 9: { leds[0][cor] = CRGB::Yellow; break;} // white knight
         case 10: { leds[0][cor] = CRGB(0, 175, 23); break;} // white bishop
