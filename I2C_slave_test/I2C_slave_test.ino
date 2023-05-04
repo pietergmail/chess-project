@@ -21,10 +21,10 @@ bool currentplayer = 0;
 int chessBoard[8][8] = {
   {2, 3, 4, 6, 5, 4, 3, 2},
   {1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 2},
+  {4, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
-  {8, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 10},
   {7, 7, 7, 7, 7, 7, 7, 7},
   {8, 9, 10, 12, 11, 10, 9, 8}
 };
@@ -45,7 +45,7 @@ void setup() {
   Wire.onReceive(receiveEvent);
 
   // split the newly generated array in 2
-  // splitArray(chessBoard, myArray1, myArray2);
+  splitArray(chessBoard, myArray1, myArray2);
 }
 
 void loop() {

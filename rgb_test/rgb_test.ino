@@ -19,6 +19,12 @@ void setup() {
   // tell FastLED there's 64 NEOPIXEL leds on pin 5
   FastLED.addLeds<WS2811, 10>(leds[0], NUM_LEDS_PER_STRIP);
   Serial.begin(9600);
+
+  receiveData();
+  combineArrays(pieces1, pieces2, pieces);
+
+  // print data to the the led array
+  ArrayToLeds(pieces);
 }
 
 void loop() {

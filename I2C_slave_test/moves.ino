@@ -22,7 +22,7 @@ bool checkValid(int piece, int origin[2], int target[2]){
           return false;
         }
       case 4:
-        if(bishopcheck(origin, target)){
+        if(bishopCheck(origin, target)){
           return true;
         }else{
           return false;
@@ -65,7 +65,7 @@ bool checkValid(int piece, int origin[2], int target[2]){
           return false;
         }
       case 10:
-        if(bishopcheck(origin, target)){
+        if(bishopCheck(origin, target)){
           return true;
         }else{
           return false;
@@ -322,7 +322,72 @@ bool knightcheck(int origin[2],int target[2]){
   return true;
 }
 
-bool bishopcheck(int origin[2],int target[2]){
+// Function to check if a bishop move is valid
+bool bishopCheck(int origin[2], int target[2]) {
+  int origin_y = origin[1];
+  int origin_x = origin[0];
+  
+  int target_y = target[1];
+  int target_x = target[0];
+  
+  int originpiece = chessBoard[origin_y][origin_x];
+  int targetpiece = chessBoard[target_y][target_x];
+  
+  // Check if the starting and ending positions are within the bounds of the board
+  if (origin_x < 0 || origin_x > 7 || origin_y < 0 || origin_y > 7 || target_x < 0 || target_x > 7 || target_y < 0 || target_y > 7) {
+    Serial.println("out of bounds");
+    return false;
+  }
+  
+  // Check if there is a bishop at the starting position
+  if (originpiece != 4 && originpiece != 10) {
+    Serial.println("this is not a bishop");
+    return false;
+  }
+  
+  // Check if the bishop is moving to its own position
+  if (origin_x == target_x && origin_y == target_y) {
+    Serial.println("you can not move to your own position");
+    return false;
+  }
+  
+  // Check if the bishop is moving diagonally, not sure about this
+  if (abs(origin_x - target_x) != abs(origin_y - target_y)) {
+    Serial.println("this move is not diagonal");
+    return false;
+  }
+  
+  // Check if there are any pieces in the bishop's path
+  int x_dir = (target_x - origin_x) > 0 ? 1 : -1;
+  int y_dir = (target_y - origin_y) > 0 ? 1 : -1;
+  
+  int current_x = origin_x + x_dir;
+  int current_y = origin_y + y_dir;
+  
+  while (current_x != target_x && current_y != target_y) {
+    if (chessBoard[current_y][current_x] != 0) {
+      Serial.println("there is a piece in the way");
+      return false;
+    }
+    current_x += x_dir;
+    current_y += y_dir;
+  }
+  
+  // Check if the bishop is capturing an enemy piece
+  if (targetpiece != 0) {
+    if (currentplayer && targetpiece >= 7 && targetpiece <= 12) {
+      Serial.println("capturing an enemy piece");
+      return true;
+    }
+    if (!currentplayer && originpiece <= 12 && targetpiece < 7) {
+      Serial.println("capturing an enemy piece");
+      return true;
+    }
+    Serial.println("can not capture your own piece");
+    return false;
+  }
+  
+  // The move is valid if there are no pieces in the bishop's path and the target square is empty
   return true;
 }
 
