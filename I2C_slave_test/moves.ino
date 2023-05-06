@@ -123,6 +123,11 @@ bool pawnCheckWhite(int origin[2], int target[2]){
     int enemypiece = chessBoard[target_y][target_x];
     if(enemypiece != 0 && enemypiece <= 6){
       Serial.println("sideways capture");
+    }else if(en_passent[0] == target_x && en_passent[1] == target_y){
+      // empty out attacked piece
+      chessBoard[target_y + 1][target_x] = 0;
+
+      Serial.println("EN PASSENT");
     }else{
       Serial.println("no enemy piece on this position");
       return false;
@@ -157,6 +162,14 @@ bool pawnCheckWhite(int origin[2], int target[2]){
     Serial.println("a pawn can't move backwards");
     return false;
   }
+
+  // check if movement 2, en passent time
+  if(abs(origin_y - target_y) == 2){
+    en_passent[0] = origin_x;
+    en_passent[1] = origin_y - 1;
+    en_passent[2] = 1;
+  }
+
   return true;
 }
 
@@ -193,6 +206,11 @@ bool pawncheckblack(int origin[2],int target[2]){
     int enemypiece = chessBoard[target_y][target_x];
     if(enemypiece != 0 && enemypiece > 6){
       Serial.println("sideways capture");
+    }else if(en_passent[0] == target_x && en_passent[1] == target_y){
+      // empty out attacked piece
+      chessBoard[target_y - 1][target_x] = 0;
+
+      Serial.println("EN PASSENT");
     }else{
       Serial.println("no enemy piece on this position");
       return false;
@@ -227,6 +245,14 @@ bool pawncheckblack(int origin[2],int target[2]){
     Serial.println("a pawn can't move backwards");
     return false;
   }
+
+  // check if movement 2, en passent time
+  if(abs(origin_y - target_y) == 2){
+    en_passent[0] = origin_x;
+    en_passent[1] = origin_y + 1;
+    en_passent[2] = 2;
+  }
+
   return true;
 }
 
@@ -314,7 +340,22 @@ bool rookcheck(int origin[2],int target[2]){
     }
   }
 
-
+  // set casteling flag
+  if(currentplayer){
+    // check wich rook
+    if(origin_x == 7){
+      casteling_black[0] = false;
+    }else{
+      casteling_black[2] = false;
+    }
+  }else{
+    // check wich rook
+    if(origin_x == 7){
+      casteling_white[0] = false;
+    }else{
+      casteling_white[2] = false;
+    }
+  }
   return true;
 }
 
@@ -584,45 +625,194 @@ bool kingCheck(int origin[2], int target[2]){
     }
   }
 
+  // casteling check
+  // white
+  if(!currentplayer){
+    // check if the user wants to castle
+    if(target_y == 7 && target_x == 5 && origin_y == 7 && origin_x == 3){
+      // check if casteling is still allowed
+      Serial.println(casteling_white[0]);
+      Serial.println(casteling_white[1]);
+
+      if(casteling_white[0] && casteling_white[1]){
+        // check if there is space
+        if(chessBoard[7][4] == 0 && chessBoard[7][5] == 0 && chessBoard[7][6] == 0){
+          // check if other king in the way
+          if(KingCloseCheck(target_x, target_y)){
+            // set casteling flags
+            casteling_white[1] = false;
+            casteling_white[2] = false;
+            //move the rook
+            int rook_origin[2] = {7, 7};
+            int rook_target[2] = {4, 7};
+            swap(8, rook_origin, rook_target);
+            // check is finished
+            Serial.println("casteling epic.");
+            return true;
+          }else{
+            Serial.println("Other pieces in the way");
+            return false;
+          }
+        }else{
+          Serial.println("there are pieces in the way");
+          return false;
+        }
+      }else{
+        Serial.println("casteling no longer allowed like that.");
+        return false;
+      }
+    // check for other casteling option
+    }else if(target_y == 7 && target_x == 1 && origin_y == 7 && origin_x == 3){
+      // check if casteling is still allowed
+      Serial.println(casteling_white[0]);
+      Serial.println(casteling_white[1]);
+      // check if casteling is still allowed
+      if(casteling_white[1] && casteling_white[2]){
+        // check if there is space
+        if(chessBoard[7][1] == 0 && chessBoard[7][2] == 0){
+          // check if other king in the way
+          if(KingCloseCheck(target_x, target_y)){
+            // set casteling flags
+            casteling_white[1] = false;
+            casteling_white[2] = false;
+            //move the rook
+            int rook_origin[2] = {0, 7};
+            int rook_target[2] = {2, 7};
+            swap(8, rook_origin, rook_target);
+            // check is finished
+            Serial.println("casteling epic.");
+            return true;
+          }else{
+            Serial.println("Other pieces in the way");
+            return false;
+          }
+        }else{
+          Serial.println("there are pieces in the way");
+          return false;
+        }
+      }else{
+        Serial.println("casteling no longer allowed like that.");
+        return false;
+      }
+    }
+  //black
+  }else{  
+    // check if the user wants to castle
+    if(target_y == 0 && target_x == 5 && origin_y == 0 && origin_x == 3){
+      // check if casteling is still allowed
+      if(casteling_black[0] && casteling_black[1]){
+        // check if there is space
+        if(chessBoard[0][4] == 0 && chessBoard[0][5] == 0 && chessBoard[0][6] == 0){
+          // check if other king in the way
+          if(KingCloseCheck(target_x, target_y)){
+            // set casteling flags
+            casteling_black[1] = false;
+            casteling_black[0] = false;
+            //move the rook
+            int rook_origin[2] = {7, 0};
+            int rook_target[2] = {4, 0};
+            swap(2, rook_origin, rook_target);
+            // check is finished
+            Serial.println("casteling epic.");
+            return true;
+          }else{
+            Serial.println("Other pieces in the way");
+            return false;
+          }
+        }else{
+          Serial.println("there are pieces in the way");
+          return false;
+        }
+      }else{
+        Serial.println("casteling no longer allowed like that.");
+        return false;
+      }
+    // check for other casteling option
+    }else if(target_y == 0 && target_x == 1 && origin_y == 0 && origin_x == 3){
+      // check if casteling is still allowed
+      if(casteling_black[1] && casteling_black[2]){
+        // check if there is space
+        if(chessBoard[0][1] == 0 && chessBoard[0][2] == 0){
+          // check if other king in the way
+          if(KingCloseCheck(target_x, target_y)){
+            // set casteling flags
+            casteling_black[1] = false;
+            casteling_black[2] = false;
+            // move the rook
+            int rook_origin[2] = {0, 0};
+            int rook_target[2] = {2, 0};
+            swap(2, rook_origin, rook_target);
+            // check is finished
+            Serial.println("casteling epic.");
+            return true;
+          }else{
+            Serial.println("Other pieces in the way");
+            return false;
+          }
+        }else{
+          Serial.println("there are pieces in the way");
+          return false;
+        }
+      }else{
+        Serial.println("casteling no longer allowed like that.");
+        return false;
+      }
+    }      
+  }
+
+  Serial.println("it continues");
+
   // Check if the king is moving to a neighboring square
   if (abs(target_x - origin_x) <= 1 && abs(target_y - origin_y) <= 1) {
       // Check if the target square contains an enemy piece
 
-      // Check if the king is too close to the other king
-      int otherKingX;
-      int otherKingY;
-
-      // check black 
-      if(currentplayer){
-        for (int y = 0; y < 8; y++) {
-          for (int x = 0; x < 8; x++) {
-            if (chessBoard[y][x] == 12) {
-              otherKingX = x;
-              otherKingY = y;
-            }
-          }
-        }
-      }else{
-        for (int y = 0; y < 8; y++) {
-          for (int x = 0; x < 8; x++) {
-            if (chessBoard[y][x] == 6) {
-              otherKingX = x;
-              otherKingY = y;
-            }
-          }
-        }
-      }
-
-      // check if kings to close
-      if (abs(otherKingX - target_x) <= 1 && abs(otherKingY - target_y) <= 1) {
-          Serial.println("two kings can't get too close to each other");
-          return false;
-      }
-
+    if(KingCloseCheck(target_x, target_y)){
       return true;
+    }
   }
 
   // Invalid move
   Serial.println("invalid move for a king");
   return false;
+}
+
+bool KingCloseCheck(int target_x, int target_y){
+  // Check if the king is too close to the other king
+  int otherKingX;
+  int otherKingY;
+
+  if(currentplayer){
+  for (int y = 0; y < 8; y++) {
+    for (int x = 0; x < 8; x++) {
+      if (chessBoard[y][x] == 12) {
+        otherKingX = x;
+        otherKingY = y;
+      }
+    }
+  }
+  // check white
+  }else{
+    for (int y = 0; y < 8; y++) {
+      for (int x = 0; x < 8; x++) {
+        if (chessBoard[y][x] == 6) {
+          otherKingX = x;
+          otherKingY = y;
+        }
+      }
+    }
+  }
+  // check if kings to close
+  if (abs(otherKingX - target_x) <= 1 && abs(otherKingY - target_y) <= 1) {
+      Serial.println("two kings can't get too close to each other");
+      return false;
+  }
+
+  // set casteling flag
+  if(currentplayer){
+    casteling_black[2] = false;
+  }else{
+    casteling_white[2] = false;
+  }
+
+  return true;
 }

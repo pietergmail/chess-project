@@ -11,20 +11,31 @@ char arr2[2]; // second array to store received data
 int coo1[2];
 int coo2[2];
 
+// en passent coordinate
+int en_passent[3];
+
 // flag to determine which array to use
 bool useArr1 = true; 
 
 // boolean to define the current player, 0 = white 1 = black
 bool currentplayer = 0;
 
+// flag to determine casteling white
+// [A-1 Castle, W_KING, H-1 Castle]
+bool casteling_white[3] = {true, true, true};
+
+// flag to determine casteling black
+// [A-8 Castle, B_KING, H-8 Castle]
+bool casteling_black[3] = {true, true, true};
+
 // Define the starting chess board
 int chessBoard[8][8] = {
   {2, 3, 4, 6, 5, 4, 3, 2},
   {1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 6, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 12, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
   {7, 7, 7, 7, 7, 7, 7, 7},
   {8, 9, 10, 12, 11, 10, 9, 8}
 };

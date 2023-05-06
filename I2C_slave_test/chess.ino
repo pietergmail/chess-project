@@ -59,34 +59,59 @@ void movePiece(char startPos[], char endPos[]) {
 
   int originpiece = chessBoard[coo1[1]][coo1[0]];
 
+    // en passent removal
+  if(en_passent[2] == 1 && !currentplayer){
+    // assign them to unreachable numbers
+    en_passent[0] = 10;
+    en_passent[1] = 10;
+    en_passent[2] = 0;
+  }else if(en_passent[2] == 2 && currentplayer){
+    // assign them to unreachable numbers
+    en_passent[0] = 10;
+    en_passent[1] = 10;
+    en_passent[2] = 0;
+  }
+
   // check if the move is valid
   if(checkValid(originpiece, coo1, coo2)){
-    swap(originpiece);
+    swap(originpiece, coo1, coo2);
+    // check if a pawn has reached the end of the board
+    if(originpiece == 1 || originpiece == 7){
+      promotioncheck();
+    }
   }else{
     Serial.println("error somewhere in check");
   }
 }
 
 // move led to new position
-void swap(int originpiece){
-  chessBoard[coo1[1]][coo1[0]] = 0; // Remove piece from starting location
-  chessBoard[coo2[1]][coo2[0]] = originpiece; // Add piece to ending location
+void swap(int originpiece, int origin[2], int target[2]){
+  chessBoard[origin[1]][origin[0]] = 0; // Remove piece from starting location
+  chessBoard[target[1]][target[0]] = originpiece; // Add piece to ending location
   
   // swap player
   currentplayer = !currentplayer;
 }
 
-// checks if the piece is capturable
-void checkCapture(int originpiece, int targetpiece){
-  if (!currentplayer && targetpiece < 7 ){
-    // currentplayer is white
-    swap(originpiece);
-    Serial.println("captured enemy piece");
-  }else if(currentplayer && targetpiece >= 7){
-    // currentplayer is black
-    swap(originpiece);
-    Serial.println("captured enemy piece");
-  }else{
-    Serial.println("can't capture your own pieces");
+void promotioncheck(){
+   // Check if there is a black pawn on the first row
+  for (int i = 0; i < 8; i++) {
+      if (chessBoard[0][i] == 7) {
+        // change pawn to queen
+        chessBoard[0][i] = 11;
+        // there can only be one promotion, return
+        return;
+      }
+  }
+
+  // Check if there is a white pawn on the last row
+  for (int i = 0; i < 8; i++) {
+      if (chessBoard[7][i] == 1) {
+        // change pawn to queen
+        chessBoard[7][i] = 5;
+        // there can only be one promotion, return
+        return;
+    }
   }
 }
+
