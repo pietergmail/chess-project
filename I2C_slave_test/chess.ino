@@ -56,10 +56,17 @@ void movePiece(char startPos[], char endPos[]) {
 
   chessCoordsToArray(startPos, coo1);
   chessCoordsToArray(endPos, coo2);
+  
+  int origin_y = coo1[1];
+  int origin_x = coo1[0];
+  
+  int target_y = coo2[1];
+  int target_x = coo2[0];
 
-  int originpiece = chessBoard[coo1[1]][coo1[0]];
+  int originpiece = chessBoard[origin_y][origin_x];
+  int targetpiece = chessBoard[target_y][target_x];
 
-    // en passent removal
+  // en passent removal
   if(en_passent[2] == 1 && !currentplayer){
     // assign them to unreachable numbers
     en_passent[0] = 10;
@@ -72,24 +79,56 @@ void movePiece(char startPos[], char endPos[]) {
     en_passent[2] = 0;
   }
 
-  // check if the move is valid
-  if(checkValid(originpiece, coo1, coo2)){
-    swap(originpiece, coo1, coo2);
-    // check if a pawn has reached the end of the board
-    if(originpiece == 1 || originpiece == 7){
-      promotioncheck();
+  // check if currently in check
+  if(checkCheck()){
+    Serial.println("currently in check");
+    inCheck=true;
+  }
+
+  if (currentplayer){
+    // check if the move is valid black
+    if(blackCheckValid(originpiece, origin_x, origin_y, target_x, target_y)){
+      
+      // set casteling
+      castelingflag(originpiece, origin_x, origin_y, target_x, target_y);
+
+      swap(originpiece, origin_x, origin_y, target_x, target_y);
+      // check if a pawn has reached the end of the board
+      if(originpiece == 1){
+        promotioncheck();
+      }
     }
   }else{
-    Serial.println("error somewhere in check");
+    // check if the move is valid white
+    if(whiteCheckValid(originpiece, origin_x, origin_y, target_x, target_y)){
+
+      // set casteling
+      castelingflag(originpiece, origin_x, origin_y, target_x, target_y);
+
+      swap(originpiece, origin_x, origin_y, target_x, target_y);
+      // check if a pawn has reached the end of the board
+      if(originpiece == 7){
+        promotioncheck();
+      }
+    }
+  }
+  // check if you are not in check
+  if(checkCheck()){
+    // your last move was invalid, still in check
+    Serial.println("invalid move, in check");
+    swap(originpiece, target_x, target_x, origin_x, origin_y);
+    // restored captured piece
+    chessBoard[target_y][target_x] = targetpiece;
+  }else{
+    // swap player
+    inCheck = false;
   }
 }
 
 // move led to new position
-void swap(int originpiece, int origin[2], int target[2]){
-  chessBoard[origin[1]][origin[0]] = 0; // Remove piece from starting location
-  chessBoard[target[1]][target[0]] = originpiece; // Add piece to ending location
-  
-  // swap player
+void swap(int originpiece, int origin_x, int origin_y, int target_x, int target_y){
+  chessBoard[origin_y][origin_x] = 0; // Remove piece from starting location
+  chessBoard[target_y][target_x] = originpiece; // Add piece to ending location
   currentplayer = !currentplayer;
 }
 
@@ -113,5 +152,31 @@ void promotioncheck(){
         return;
     }
   }
+}
+
+void castelingflag(int currentpiece, int origin_x, int origin_y, int target_x, int target_y){
+  if(currentpiece == 2){
+    // check which rook
+    if(origin_x == 7){
+      casteling_black[0] = false;
+    }else{
+      casteling_black[2] = false;
+    }
+  }else if(currentpiece == 8){
+    // check which rook
+    if(origin_x == 7){
+      casteling_white[0] = false;
+    }else{
+      casteling_white[2] = false;
+    }
+  }else if(currentpiece == 6){
+    casteling_black[1] = false;
+  }else if(currentpiece == 12){
+    casteling_white[1] = false;
+  }
+}
+
+void gameEnd(){
+  Serial.println("MATE");
 }
 

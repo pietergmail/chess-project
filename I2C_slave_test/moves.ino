@@ -1,102 +1,95 @@
 // boolean that checks if the move is valid
-bool checkValid(int piece, int origin[2], int target[2]){
-  if(currentplayer){
-    // currentplayer is black
-    switch(piece){
-      case 1:
-        if(pawncheckblack(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 2:
-        if(rookcheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 3:
-        if(knightCheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 4:
-        if(bishopCheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 5:
-        if(queenCheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 6:
-        if(kingCheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      default:
-        Serial.println("Not one of your pieces.");
+bool blackCheckValid(int piece, int origin_x, int origin_y, int target_x, int target_y){
+  switch(piece){
+    case 1:
+      if(pawncheckblack(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
         return false;
-    }
-  }else{
-    // currentplayer is white
-    switch(piece){
-      case 7:
-        if(pawnCheckWhite(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 8:
-        if(rookcheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 9:
-        if(knightCheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 10:
-        if(bishopCheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 11:
-        if(queenCheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      case 12:
-        if(kingCheck(origin, target)){
-          return true;
-        }else{
-          return false;
-        }
-      default:
-        Serial.println("Not one of your pieces.");
+      }
+    case 2:
+      if(rookcheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
         return false;
-    }
+      }
+    case 3:
+      if(knightCheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    case 4:
+      if(bishopCheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    case 5:
+      if(queenCheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    case 6:
+      if(kingCheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    default:
+      Serial.println("Not one of your pieces.");
+      return false;
+  }
+}
+
+bool whiteCheckValid(int piece, int origin_x, int origin_y, int target_x, int target_y){
+  // currentplayer is white
+  switch(piece){
+    case 7:
+      if(pawnCheckWhite(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    case 8:
+      if(rookcheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    case 9:
+      if(knightCheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    case 10:
+      if(bishopCheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    case 11:
+      if(queenCheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    case 12:
+      if(kingCheck(origin_x, origin_y, target_x, target_y)){
+        return true;
+      }else{
+        return false;
+      }
+    default:
+      Serial.println("Not one of your pieces.");
+      return false;
   }
 }
 
 // Function to check if a pawn move is valid
-bool pawnCheckWhite(int origin[2], int target[2]){
-  int origin_y = origin[1];
-  int origin_x = origin[0];
-
-  int target_y = target[1];
-  int target_x = target[0];
-
+bool pawnCheckWhite(int origin_x, int origin_y, int target_x, int target_y){
   int originpiece = chessBoard[origin_y][origin_x];
   int targetpiece = chessBoard[target_y][target_x];
   // Check if the starting and ending positions are within the bounds of the board
@@ -173,13 +166,7 @@ bool pawnCheckWhite(int origin[2], int target[2]){
   return true;
 }
 
-bool pawncheckblack(int origin[2],int target[2]){
-  int origin_y = origin[1];
-  int origin_x = origin[0];
-
-  int target_y = target[1];
-  int target_x = target[0];
-
+bool pawncheckblack(int origin_x, int origin_y, int target_x, int target_y){
   int originpiece = chessBoard[origin_y][origin_x];
   int targetpiece = chessBoard[target_y][target_x];
   // Check if the starting and ending positions are within the bounds of the board
@@ -256,13 +243,7 @@ bool pawncheckblack(int origin[2],int target[2]){
   return true;
 }
 
-bool rookcheck(int origin[2],int target[2]){
-  int origin_y = origin[1];
-  int origin_x = origin[0];
-
-  int target_y = target[1];
-  int target_x = target[0];
-
+bool rookcheck(int origin_x, int origin_y, int target_x, int target_y){
   int originpiece = chessBoard[origin_y][origin_x];
   int targetpiece = chessBoard[target_y][target_x];
 
@@ -340,32 +321,11 @@ bool rookcheck(int origin[2],int target[2]){
     }
   }
 
-  // set casteling flag
-  if(currentplayer){
-    // check wich rook
-    if(origin_x == 7){
-      casteling_black[0] = false;
-    }else{
-      casteling_black[2] = false;
-    }
-  }else{
-    // check wich rook
-    if(origin_x == 7){
-      casteling_white[0] = false;
-    }else{
-      casteling_white[2] = false;
-    }
-  }
   return true;
 }
 
 // Function to check if a knight move is valid
-bool knightCheck(int origin[2], int target[2]) {
-  int origin_x = origin[0];
-  int origin_y = origin[1];
-  int target_x = target[0];
-  int target_y = target[1];
-
+bool knightCheck(int origin_x, int origin_y, int target_x, int target_y) {
   int originpiece = chessBoard[origin_y][origin_x];
   int targetpiece = chessBoard[target_y][target_x];
 
@@ -416,13 +376,7 @@ bool knightCheck(int origin[2], int target[2]) {
 }
 
 // Function to check if a bishop move is valid
-bool bishopCheck(int origin[2], int target[2]) {
-  int origin_y = origin[1];
-  int origin_x = origin[0];
-  
-  int target_y = target[1];
-  int target_x = target[0];
-  
+bool bishopCheck(int origin_x, int origin_y, int target_x, int target_y) {
   int originpiece = chessBoard[origin_y][origin_x];
   int targetpiece = chessBoard[target_y][target_x];
   
@@ -485,13 +439,7 @@ bool bishopCheck(int origin[2], int target[2]) {
 }
 
 // Function to check if a queen move is valid
-bool queenCheck(int origin[2], int target[2]){
-  int origin_y = origin[1];
-  int origin_x = origin[0];
-
-  int target_y = target[1];
-  int target_x = target[0];
-
+bool queenCheck(int origin_x, int origin_y, int target_x, int target_y){
   int originpiece = chessBoard[origin_y][origin_x];
   int targetpiece = chessBoard[target_y][target_x];
 
@@ -574,13 +522,7 @@ bool queenCheck(int origin[2], int target[2]){
 }
 
 // Function to check if a king move is valid
-bool kingCheck(int origin[2], int target[2]){
-  int origin_y = origin[1];
-  int origin_x = origin[0];
-
-  int target_y = target[1];
-  int target_x = target[0];
-
+bool kingCheck(int origin_x, int origin_y, int target_x, int target_y){
   int originpiece = chessBoard[origin_y][origin_x];
   int targetpiece = chessBoard[target_y][target_x];
 
@@ -630,137 +572,143 @@ bool kingCheck(int origin[2], int target[2]){
   if(!currentplayer){
     // check if the user wants to castle
     if(target_y == 7 && target_x == 5 && origin_y == 7 && origin_x == 3){
+      if(!inCheck){
       // check if casteling is still allowed
-      Serial.println(casteling_white[0]);
-      Serial.println(casteling_white[1]);
-
-      if(casteling_white[0] && casteling_white[1]){
-        // check if there is space
-        if(chessBoard[7][4] == 0 && chessBoard[7][5] == 0 && chessBoard[7][6] == 0){
-          // check if other king in the way
-          if(KingCloseCheck(target_x, target_y)){
-            // set casteling flags
-            casteling_white[1] = false;
-            casteling_white[2] = false;
-            //move the rook
-            int rook_origin[2] = {7, 7};
-            int rook_target[2] = {4, 7};
-            swap(8, rook_origin, rook_target);
-            // check is finished
-            Serial.println("casteling epic.");
-            return true;
+        if(casteling_white[0] && casteling_white[1]){
+          // check if there is space
+          if(chessBoard[7][4] == 0 && chessBoard[7][5] == 0 && chessBoard[7][6] == 0){
+            // check if other king in the way
+            if(KingCloseCheck(target_x, target_y)){
+              // set casteling flags
+              casteling_white[1] = false;
+              casteling_white[2] = false;
+              //move the rook
+              int rook_origin[2] = {7, 7};
+              int rook_target[2] = {4, 7};
+              swap(8, 7, 7, 4, 7);
+              // check is finished
+              Serial.println("casteling epic.");
+              return true;
+            }else{
+              Serial.println("Other pieces in the way");
+              return false;
+            }
           }else{
-            Serial.println("Other pieces in the way");
+            Serial.println("there are pieces in the way");
             return false;
           }
         }else{
-          Serial.println("there are pieces in the way");
+          Serial.println("casteling no longer allowed like that");
           return false;
         }
       }else{
-        Serial.println("casteling no longer allowed like that.");
+        Serial.println("Can not castle while in check");
         return false;
-      }
+    }
     // check for other casteling option
     }else if(target_y == 7 && target_x == 1 && origin_y == 7 && origin_x == 3){
-      // check if casteling is still allowed
-      Serial.println(casteling_white[0]);
-      Serial.println(casteling_white[1]);
-      // check if casteling is still allowed
-      if(casteling_white[1] && casteling_white[2]){
-        // check if there is space
-        if(chessBoard[7][1] == 0 && chessBoard[7][2] == 0){
-          // check if other king in the way
-          if(KingCloseCheck(target_x, target_y)){
-            // set casteling flags
-            casteling_white[1] = false;
-            casteling_white[2] = false;
-            //move the rook
-            int rook_origin[2] = {0, 7};
-            int rook_target[2] = {2, 7};
-            swap(8, rook_origin, rook_target);
-            // check is finished
-            Serial.println("casteling epic.");
-            return true;
+      if(!inCheck){
+        // check if casteling is still allowed
+        if(casteling_white[1] && casteling_white[2]){
+          // check if there is space
+          if(chessBoard[7][1] == 0 && chessBoard[7][2] == 0){
+            // check if other king in the way
+            if(KingCloseCheck(target_x, target_y)){
+              // set casteling flags
+              casteling_white[1] = false;
+              casteling_white[2] = false;
+              //move the rook
+              swap(8, 0, 7, 2, 7);
+              // check is finished
+              Serial.println("casteling epic.");
+              return true;
+            }else{
+              Serial.println("Other pieces in the way");
+              return false;
+            }
           }else{
-            Serial.println("Other pieces in the way");
+            Serial.println("there are pieces in the way");
             return false;
           }
         }else{
-          Serial.println("there are pieces in the way");
+          Serial.println("casteling no longer allowed like that.");
           return false;
         }
       }else{
-        Serial.println("casteling no longer allowed like that.");
-        return false;
+          Serial.println("Can not castle while in check");
+          return false;
       }
     }
   //black
   }else{  
     // check if the user wants to castle
     if(target_y == 0 && target_x == 5 && origin_y == 0 && origin_x == 3){
-      // check if casteling is still allowed
-      if(casteling_black[0] && casteling_black[1]){
-        // check if there is space
-        if(chessBoard[0][4] == 0 && chessBoard[0][5] == 0 && chessBoard[0][6] == 0){
-          // check if other king in the way
-          if(KingCloseCheck(target_x, target_y)){
-            // set casteling flags
-            casteling_black[1] = false;
-            casteling_black[0] = false;
-            //move the rook
-            int rook_origin[2] = {7, 0};
-            int rook_target[2] = {4, 0};
-            swap(2, rook_origin, rook_target);
-            // check is finished
-            Serial.println("casteling epic.");
-            return true;
+      if(!inCheck){
+        // check if casteling is still allowed
+        if(casteling_black[0] && casteling_black[1]){
+          // check if there is space
+          if(chessBoard[0][4] == 0 && chessBoard[0][5] == 0 && chessBoard[0][6] == 0){
+            // check if other king in the way
+            if(KingCloseCheck(target_x, target_y)){
+              // set casteling flags
+              casteling_black[1] = false;
+              casteling_black[0] = false;
+              //move the rook
+              swap(2, 7, 0, 4, 0);
+              // check is finished
+              Serial.println("casteling epic.");
+              return true;
+            }else{
+              Serial.println("Other pieces in the way");
+              return false;
+            }
           }else{
-            Serial.println("Other pieces in the way");
+            Serial.println("there are pieces in the way");
             return false;
           }
         }else{
-          Serial.println("there are pieces in the way");
+          Serial.println("casteling no longer allowed like that.");
           return false;
         }
       }else{
-        Serial.println("casteling no longer allowed like that.");
+        Serial.println("Can not castle while in check");
         return false;
       }
     // check for other casteling option
     }else if(target_y == 0 && target_x == 1 && origin_y == 0 && origin_x == 3){
-      // check if casteling is still allowed
-      if(casteling_black[1] && casteling_black[2]){
-        // check if there is space
-        if(chessBoard[0][1] == 0 && chessBoard[0][2] == 0){
-          // check if other king in the way
-          if(KingCloseCheck(target_x, target_y)){
-            // set casteling flags
-            casteling_black[1] = false;
-            casteling_black[2] = false;
-            // move the rook
-            int rook_origin[2] = {0, 0};
-            int rook_target[2] = {2, 0};
-            swap(2, rook_origin, rook_target);
-            // check is finished
-            Serial.println("casteling epic.");
-            return true;
+      if(!inCheck){
+        // check if casteling is still allowed
+        if(casteling_black[1] && casteling_black[2]){
+          // check if there is space
+          if(chessBoard[0][1] == 0 && chessBoard[0][2] == 0){
+            // check if other king in the way
+            if(KingCloseCheck(target_x, target_y)){
+              // set casteling flags
+              casteling_black[1] = false;
+              casteling_black[2] = false;
+              // move the rook
+              swap(2, 0, 0, 2, 0);
+              // check is finished
+              Serial.println("casteling epic.");
+              return true;
+            }else{
+              Serial.println("Other pieces in the way");
+              return false;
+            }
           }else{
-            Serial.println("Other pieces in the way");
+            Serial.println("there are pieces in the way");
             return false;
           }
         }else{
-          Serial.println("there are pieces in the way");
+          Serial.println("casteling no longer allowed like that.");
           return false;
         }
       }else{
-        Serial.println("casteling no longer allowed like that.");
+        Serial.println("Can not castle while in check");
         return false;
-      }
-    }      
+      }      
+    }
   }
-
-  Serial.println("it continues");
 
   // Check if the king is moving to a neighboring square
   if (abs(target_x - origin_x) <= 1 && abs(target_y - origin_y) <= 1) {
@@ -805,13 +753,6 @@ bool KingCloseCheck(int target_x, int target_y){
   if (abs(otherKingX - target_x) <= 1 && abs(otherKingY - target_y) <= 1) {
       Serial.println("two kings can't get too close to each other");
       return false;
-  }
-
-  // set casteling flag
-  if(currentplayer){
-    casteling_black[2] = false;
-  }else{
-    casteling_white[2] = false;
   }
 
   return true;
