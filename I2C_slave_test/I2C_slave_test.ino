@@ -33,14 +33,14 @@ bool inCheck = false;
 
 // Define the starting chess board
 int chessBoard[8][8] = {
-  {2, 3, 4, 0, 5, 4, 3, 2},
+  {2, 3, 4, 6, 5, 4, 3, 2},
   {1, 1, 1, 1, 1, 1, 1, 1},
   {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 6, 0, 0, 0, 0},
+  {0, 0, 0, 12, 0, 0, 0, 0},
+  {3, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {7, 7, 7, 7, 7, 7, 7, 7},
-  {8, 9, 10, 12, 11, 10, 9, 8}
+  {8, 9, 10, 0, 11, 10, 9, 8}
 };
 
 // Define the arrays that will be send (board is to big needs to be split into 2

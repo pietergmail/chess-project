@@ -3,43 +3,74 @@ bool blackCheckValid(int piece, int origin_x, int origin_y, int target_x, int ta
   switch(piece){
     case 1:
       if(pawncheckblack(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 2:
       if(rookcheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 3:
       if(knightCheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 4:
       if(bishopCheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 5:
       if(queenCheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 6:
       if(kingCheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     default:
       Serial.println("Not one of your pieces.");
       return false;
+  }
+  // declare and initialize the boardTemp array
+  int boardTemp[8][8];
+
+  // copy the values from chessBoard to boardTemp
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      boardTemp[i][j] = chessBoard[i][j];
+    }
+  }
+
+  // make new move
+  swap(piece, origin_x, origin_y, target_x, target_y);
+  // check if new move puts you in check
+  if(checkBlack()){
+    Serial.println("New move puts you in check.");
+    // swap back the old board
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        chessBoard[i][j] = boardTemp[i][j];
+      }
+    }
+    return false;
+  }else{
+    // swap back the old board
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        chessBoard[i][j] = boardTemp[i][j];
+      }
+    }
+    return true;
   }
 }
 
@@ -48,43 +79,74 @@ bool whiteCheckValid(int piece, int origin_x, int origin_y, int target_x, int ta
   switch(piece){
     case 7:
       if(pawnCheckWhite(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 8:
       if(rookcheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 9:
       if(knightCheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 10:
       if(bishopCheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 11:
       if(queenCheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     case 12:
       if(kingCheck(origin_x, origin_y, target_x, target_y)){
-        return true;
+        break;
       }else{
         return false;
       }
     default:
       Serial.println("Not one of your pieces.");
       return false;
+  }
+  // declare and initialize the boardTemp array
+  int boardTemp[8][8];
+
+  // copy the values from chessBoard to boardTemp
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      boardTemp[i][j] = chessBoard[i][j];
+    }
+  }
+
+  // make new move
+  swap(piece, origin_x, origin_y, target_x, target_y);
+  // check if new move puts you in check
+  if(checkWhite()){
+    Serial.println("New puts keeps you in check.");
+    // swap back the old board
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        chessBoard[i][j] = boardTemp[i][j];
+      }
+    }
+    return false;
+  }else{
+    // swap back the old board
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        chessBoard[i][j] = boardTemp[i][j];
+      }
+    }
+    return true;
   }
 }
 

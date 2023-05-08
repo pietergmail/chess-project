@@ -79,12 +79,6 @@ void movePiece(char startPos[], char endPos[]) {
     en_passent[2] = 0;
   }
 
-  // check if currently in check
-  if(checkCheck()){
-    Serial.println("currently in check");
-    inCheck=true;
-  }
-
   if (currentplayer){
     // check if the move is valid black
     if(blackCheckValid(originpiece, origin_x, origin_y, target_x, target_y)){
@@ -93,6 +87,8 @@ void movePiece(char startPos[], char endPos[]) {
       castelingflag(originpiece, origin_x, origin_y, target_x, target_y);
 
       swap(originpiece, origin_x, origin_y, target_x, target_y);
+      // swap to the next player
+      currentplayer = !currentplayer;
       // check if a pawn has reached the end of the board
       if(originpiece == 1){
         promotioncheck();
@@ -106,22 +102,13 @@ void movePiece(char startPos[], char endPos[]) {
       castelingflag(originpiece, origin_x, origin_y, target_x, target_y);
 
       swap(originpiece, origin_x, origin_y, target_x, target_y);
+      // swap to the next player
+      currentplayer = !currentplayer;
       // check if a pawn has reached the end of the board
       if(originpiece == 7){
         promotioncheck();
       }
     }
-  }
-  // check if you are not in check
-  if(checkCheck()){
-    // your last move was invalid, still in check
-    Serial.println("invalid move, in check");
-    swap(originpiece, target_x, target_x, origin_x, origin_y);
-    // restored captured piece
-    chessBoard[target_y][target_x] = targetpiece;
-  }else{
-    // swap player
-    inCheck = false;
   }
 }
 
@@ -129,7 +116,6 @@ void movePiece(char startPos[], char endPos[]) {
 void swap(int originpiece, int origin_x, int origin_y, int target_x, int target_y){
   chessBoard[origin_y][origin_x] = 0; // Remove piece from starting location
   chessBoard[target_y][target_x] = originpiece; // Add piece to ending location
-  currentplayer = !currentplayer;
 }
 
 void promotioncheck(){
