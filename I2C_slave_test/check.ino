@@ -19,7 +19,7 @@ bool checkBlack(){
   if (king_x - 1 >= 0 && king_y + 1 >= 0 && king_x - 1 <= 7 && king_y + 1 <= 7) {
     if (chessBoard[king_y + 1][king_x - 1] == 7) {
       // a white pawn is to the front-left of the black king
-      Serial.println("currently in check front left pawn");
+      lcdString=("currently in check front left pawn");
       return true;
     }
   }
@@ -28,7 +28,7 @@ bool checkBlack(){
   if (king_x + 1 >= 0 && king_y + 1 >= 0 && king_x + 1 <= 7 && king_y + 1 <= 7) {
     if (chessBoard[king_y + 1][king_x + 1] == 7) {
       // a white pawn is to the front-right of the black king
-      Serial.println("currently in check front right pawn");
+      lcdString=("currently in check front right pawn");
       return true;
     }
   }
@@ -46,7 +46,7 @@ bool checkBlack(){
         // check if the rook can capture
         if(whiteCheckValid(8, i, king_y, king_x, king_y)){
           // a white tower is on the same line as the black king
-          Serial.println("currently in check rook horizontal");
+          lcdString=("currently in check rook horizontal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -55,7 +55,7 @@ bool checkBlack(){
         // check if the queen can capture
         if(whiteCheckValid(11, i, king_y, king_x, king_y)){
           // a white queen is on the same line as the king
-          Serial.println("currently in check queen horizontal");
+          lcdString=("currently in check queen horizontal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -73,7 +73,7 @@ bool checkBlack(){
         // check if the rook can capture
         if(whiteCheckValid(8, king_x, i, king_x, king_y)){
           // a white tower is on the same line as the black king
-          Serial.println("currently in check rook vertical");
+          lcdString=("currently in check rook vertical");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -82,7 +82,7 @@ bool checkBlack(){
         // check if the queen can capture
         if(whiteCheckValid(11, king_x, i, king_x, king_y)){
           // a white queen is on the same line as the black king
-          Serial.println("currently in check queen vertical");
+          lcdString=("currently in check queen vertical");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -101,7 +101,7 @@ bool checkBlack(){
         if (currentpiece == 10) {
           if (whiteCheckValid(10, x, y, king_x, king_y)) {
             // a white bishop is on the same diagonal as the black king
-            Serial.println("currently in check rook diagonal");
+            lcdString=("currently in check rook diagonal");
             // swap player back
             currentplayer = !currentplayer;
             return true;
@@ -109,7 +109,7 @@ bool checkBlack(){
         }else if (currentpiece == 11) {
           if (whiteCheckValid(11, x, y, king_x, king_y)) {
             // a white queen is on the same diagonal as the black king
-            Serial.println("currently in check queen diagonal");
+            lcdString=("currently in check queen diagonal");
             // swap player back
             currentplayer = !currentplayer;
             return true;
@@ -130,7 +130,7 @@ bool checkBlack(){
       if (currentpiece == 10) {
         if (whiteCheckValid(10, x, y, king_x, king_y)) {
           // a white bishop is on the same diagonal as the black king
-          Serial.println("currently in check bishop diagonal");
+          lcdString=("currently in check bishop diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -138,7 +138,7 @@ bool checkBlack(){
       }else if (currentpiece == 11) {
         if (whiteCheckValid(11, x, y, king_x, king_y)) {
           // a white queen is on the same diagonal as the black king
-          Serial.println("currently in check queen diagonal");
+          lcdString=("currently in check queen diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -159,7 +159,7 @@ bool checkBlack(){
       if (currentpiece == 10) {
         if (whiteCheckValid(10, x, y, king_x, king_y)) {
           // a white bishop is on the same diagonal as the black king
-          Serial.println("currently in check bishop diagonal");
+          lcdString=("currently in check bishop diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -167,7 +167,7 @@ bool checkBlack(){
       }else if (currentpiece == 11) {
         if (whiteCheckValid(11, x, y, king_x, king_y)) {
           // a white queen is on the same diagonal as the black king
-          Serial.println("currently in check queen diagonal");
+          lcdString=("currently in check queen diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -188,7 +188,7 @@ bool checkBlack(){
       if (currentpiece == 10) {
         if (whiteCheckValid(10, x, y, king_x, king_y)) {
           // a white bishop is on the same diagonal as the black king
-          Serial.println("currently in check bishop diagonal");
+          lcdString=("currently in check bishop diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -196,7 +196,7 @@ bool checkBlack(){
       }else if (currentpiece == 11) {
         if (whiteCheckValid(11, x, y, king_x, king_y)) {
           // a white queen is on the same diagonal as the black king
-          Serial.println("currently in check queen diagonal");
+          lcdString=("currently in check queen diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -217,7 +217,7 @@ bool checkBlack(){
     if (knight_x >= 0 && knight_x <= 7 && knight_y >= 0 && knight_y <= 7) {
       if (chessBoard[knight_y][knight_x] == 9) {
         // an opposing knight is attacking the black king
-        Serial.println("currently in check by horsey");
+        lcdString=("currently in check by horsey");
         // swap player back
         currentplayer = !currentplayer;
         return true;
@@ -235,7 +235,6 @@ bool checkWhite(){
   int king_y = 10;
   int king_x = 10;
 
-  Serial.println("white checkcheck !!");
   // currentplayer is black
   // search for the king
   for(int i = 0; i < 8; i++) {
@@ -251,7 +250,7 @@ bool checkWhite(){
   if (king_x - 1 >= 0 && king_y - 1 >= 0 && king_x - 1 <= 7 && king_y - 1 <= 7) {
     if (chessBoard[king_y - 1][king_x - 1] == 1) {
       // a white pawn is to the front-left of the black king
-      Serial.println("currently in check front right pawn");
+      lcdString=("currently in check front right pawn");
       return true;
     }
   }
@@ -260,7 +259,7 @@ bool checkWhite(){
   if (king_x + 1 >= 0 && king_y - 1 >= 0 && king_x + 1 <= 7 && king_y - 1 <= 7) {
     if (chessBoard[king_y - 1][king_x + 1] == 1) {
       // a white pawn is to the front-right of the black king
-      Serial.println("currently in check front left pawn");
+      lcdString=("currently in check front left pawn");
       return true;
     }
   }
@@ -278,7 +277,7 @@ bool checkWhite(){
         // check if the rook can capture
         if(blackCheckValid(2, i, king_y, king_x, king_y)){
           // a white tower is on the same line as the black king
-          Serial.println("currently in check rook horizontal");
+          lcdString=("currently in check rook horizontal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -287,7 +286,7 @@ bool checkWhite(){
         // check if the queen can capture
         if(blackCheckValid(5, i, king_y, king_x, king_y)){
           // a white queen is on the same line as the king
-          Serial.println("currently in check queen horizontal");
+          lcdString=("currently in check queen horizontal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -305,7 +304,7 @@ bool checkWhite(){
         // check if the rook can capture
         if(blackCheckValid(2, king_x, i, king_x, king_y)){
           // a white tower is on the same line as the black king
-          Serial.println("currently in check rook vertical");
+          lcdString=("currently in check rook vertical");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -314,7 +313,7 @@ bool checkWhite(){
         // check if the queen can capture
         if(blackCheckValid(5, king_x, i, king_x, king_y)){
           // a white queen is on the same line as the black king
-          Serial.println("currently in check queen vertical");
+          lcdString=("currently in check queen vertical");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -333,7 +332,7 @@ bool checkWhite(){
         if (currentpiece == 4) {
           if (blackCheckValid(4, x, y, king_x, king_y)) {
             // a white bishop is on the same diagonal as the black king
-            Serial.println("currently in check rook diagonal");
+            lcdString=("currently in check rook diagonal");
             // swap player back
             currentplayer = !currentplayer;
             return true;
@@ -341,7 +340,7 @@ bool checkWhite(){
         }else if (currentpiece == 5) {
           if (blackCheckValid(5, x, y, king_x, king_y)) {
             // a white queen is on the same diagonal as the black king
-            Serial.println("currently in check queen diagonal");
+            lcdString=("currently in check queen diagonal");
             // swap player back
             currentplayer = !currentplayer;
             return true;
@@ -362,7 +361,7 @@ bool checkWhite(){
       if (currentpiece == 4) {
         if (blackCheckValid(4, x, y, king_x, king_y)) {
           // a white bishop is on the same diagonal as the black king
-          Serial.println("currently in check bishop diagonal");
+          lcdString=("currently in check bishop diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -370,7 +369,7 @@ bool checkWhite(){
       }else if (currentpiece == 5) {
         if (blackCheckValid(5, x, y, king_x, king_y)) {
           // a white queen is on the same diagonal as the black king
-          Serial.println("currently in check queen diagonal");
+          lcdString=("currently in check queen diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -391,7 +390,7 @@ bool checkWhite(){
       if (currentpiece == 4) {
         if (blackCheckValid(4, x, y, king_x, king_y)) {
           // a white bishop is on the same diagonal as the black king
-          Serial.println("currently in check bishop diagonal");
+          lcdString=("currently in check bishop diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -399,7 +398,7 @@ bool checkWhite(){
       }else if (currentpiece == 5) {
         if (blackCheckValid(5, x, y, king_x, king_y)) {
           // a white queen is on the same diagonal as the black king
-          Serial.println("currently in check queen diagonal");
+          lcdString=("currently in check queen diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -420,7 +419,7 @@ bool checkWhite(){
       if (currentpiece == 4) {
         if (blackCheckValid(4, x, y, king_x, king_y)) {
           // a white bishop is on the same diagonal as the black king
-          Serial.println("currently in check bishop diagonal");
+          lcdString=("currently in check bishop diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -428,7 +427,7 @@ bool checkWhite(){
       }else if (currentpiece == 5) {
         if (blackCheckValid(5, x, y, king_x, king_y)) {
           // a white queen is on the same diagonal as the black king
-          Serial.println("currently in check queen diagonal");
+          lcdString=("currently in check queen diagonal");
           // swap player back
           currentplayer = !currentplayer;
           return true;
@@ -449,7 +448,7 @@ bool checkWhite(){
     if (knight_x >= 0 && knight_x <= 7 && knight_y >= 0 && knight_y <= 7) {
       if (chessBoard[knight_y][knight_x] == 3) {
         // an opposing knight is attacking the black king
-        Serial.println("currently in check by horsey");
+        lcdString=("currently in check by horsey");
         currentplayer = !currentplayer;
         return true;
       }
@@ -462,5 +461,5 @@ bool checkWhite(){
 }
 
 bool mateCheck(){
-  Serial.println("not implemented yet");
+  lcdString=("not implemented yet");
 }

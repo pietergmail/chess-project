@@ -38,7 +38,7 @@ bool blackCheckValid(int piece, int origin_x, int origin_y, int target_x, int ta
         return false;
       }
     default:
-      Serial.println("Not one of your pieces.");
+      lcdString=("Not one of your pieces.");
       return false;
   }
   // declare and initialize the boardTemp array
@@ -55,7 +55,7 @@ bool blackCheckValid(int piece, int origin_x, int origin_y, int target_x, int ta
   swap(piece, origin_x, origin_y, target_x, target_y);
   // check if new move puts you in check
   if(checkBlack()){
-    Serial.println("New move puts you in check.");
+    lcdString=("New move puts you in check.");
     // swap back the old board
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
@@ -114,7 +114,7 @@ bool whiteCheckValid(int piece, int origin_x, int origin_y, int target_x, int ta
         return false;
       }
     default:
-      Serial.println("Not one of your pieces.");
+      lcdString=("Not one of your pieces.");
       return false;
   }
   // declare and initialize the boardTemp array
@@ -131,7 +131,7 @@ bool whiteCheckValid(int piece, int origin_x, int origin_y, int target_x, int ta
   swap(piece, origin_x, origin_y, target_x, target_y);
   // check if new move puts you in check
   if(checkWhite()){
-    Serial.println("New puts keeps you in check.");
+    lcdString=("New puts keeps you in check.");
     // swap back the old board
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
@@ -156,19 +156,19 @@ bool pawnCheckWhite(int origin_x, int origin_y, int target_x, int target_y){
   int targetpiece = chessBoard[target_y][target_x];
   // Check if the starting and ending positions are within the bounds of the board
   if (origin_x < 0 || origin_x > 7 || origin_y < 0 || origin_y > 7 || target_x < 0 || target_x > 7 || target_y < 0 || target_y > 7) {
-      Serial.println("out of bounds");
+      lcdString=("out of bounds");
       return false;
   }
 
   // Check if there is a pawn at the starting position
   if (originpiece != 7) {
-      Serial.println(originpiece);
-      Serial.println("this is not a pawn");
+      lcdString=(originpiece);
+      lcdString=("this is not a pawn");
       return false;
   }
   // Check if the pawn is moving to its own position
   if (origin_x == target_x && origin_y == target_y) {
-      Serial.println("you can not move to your own position");
+      lcdString=("you can not move to your own position");
       return false;
   }
 
@@ -177,44 +177,44 @@ bool pawnCheckWhite(int origin_x, int origin_y, int target_x, int target_y){
     // check if there is an enemy piece
     int enemypiece = chessBoard[target_y][target_x];
     if(enemypiece != 0 && enemypiece <= 6){
-      Serial.println("sideways capture");
+      lcdString=("sideways capture");
     }else if(en_passent[0] == target_x && en_passent[1] == target_y){
       // empty out attacked piece
       chessBoard[target_y + 1][target_x] = 0;
 
-      Serial.println("EN PASSENT");
+      lcdString=("EN PASSENT");
     }else{
-      Serial.println("no enemy piece on this position");
+      lcdString=("no enemy piece on this position");
       return false;
     }
   }
 
   // Check if the pawn is moving forward more than two squares
   if (origin_y ==  6 && target_y < 4) {
-      Serial.println("moving forward to far");
+      lcdString=("moving forward to far");
       return false;
   }
 
   // check if there is piece on the current target (non capture)
   if(targetpiece != 0 && origin_x == target_x) {
-      Serial.println("already a piece on this space");
+      lcdString=("already a piece on this space");
       return false;
   }
 
   // Check if the pawn is moving forward more than one square, but there is a piece in the way
   if (origin_y == target_y + 2 && chessBoard[origin_y - 1][origin_x] != 0) {
-      Serial.println("there is a piece in the way");
+      lcdString=("there is a piece in the way");
       return false;
   }
 
   // Check if the pawn is moving forward more than one square after its initial move, black
   if (origin_y != 6 && target_y < origin_y - 1){
-    Serial.println("can't move two spaces after first move");
+    lcdString=("can't move two spaces after first move");
     return false;
   }
 
   if (origin_y < target_y){
-    Serial.println("a pawn can't move backwards");
+    lcdString=("a pawn can't move backwards");
     return false;
   }
 
@@ -233,19 +233,19 @@ bool pawncheckblack(int origin_x, int origin_y, int target_x, int target_y){
   int targetpiece = chessBoard[target_y][target_x];
   // Check if the starting and ending positions are within the bounds of the board
   if (origin_x < 0 || origin_x > 7 || origin_y < 0 || origin_y > 7 || target_x < 0 || target_x > 7 || target_y < 0 || target_y > 7) {
-      Serial.println("out of bounds");
+      lcdString=("out of bounds");
       return false;
   }
 
   // Check if there is a pawn at the starting position
   if (originpiece != 1) {
-      Serial.println(originpiece);
-      Serial.println("this is not a pawn");
+      lcdString=(originpiece);
+      lcdString=("this is not a pawn");
       return false;
   }
   // Check if the pawn is moving to its own position
   if (origin_x == target_x && origin_y == target_y) {
-      Serial.println("you can not move to your own position");
+      lcdString=("you can not move to your own position");
       return false;
   }
 
@@ -254,44 +254,44 @@ bool pawncheckblack(int origin_x, int origin_y, int target_x, int target_y){
     // check if there is an enemy piece
     int enemypiece = chessBoard[target_y][target_x];
     if(enemypiece != 0 && enemypiece > 6){
-      Serial.println("sideways capture");
+      lcdString=("sideways capture");
     }else if(en_passent[0] == target_x && en_passent[1] == target_y){
       // empty out attacked piece
       chessBoard[target_y - 1][target_x] = 0;
 
-      Serial.println("EN PASSENT");
+      lcdString=("EN PASSENT");
     }else{
-      Serial.println("no enemy piece on this position");
+      lcdString=("no enemy piece on this position");
       return false;
     }
   }
 
   // Check if the pawn is moving forward more than two squares
   if (origin_y ==  1 && target_y > 3) {
-      Serial.println("moving forward to far");
+      lcdString=("moving forward to far");
       return false;
   }
 
   // check if there is piece on the current target (non capture)
   if(targetpiece != 0 && origin_x == target_x) {
-      Serial.println("already a piece on this space");
+      lcdString=("already a piece on this space");
       return false;
   }
 
   // Check if the pawn is moving forward more than one square, but there is a piece in the way
   if (origin_y == target_y - 2 && chessBoard[origin_y + 1][origin_x] != 0) {
-      Serial.println("there is a piece in the way");
+      lcdString=("there is a piece in the way");
       return false;
   }
 
   // Check if the pawn is moving forward more than one square after its initial move, black
   if (origin_y != 1 && target_y > origin_y + 1){
-    Serial.println("can't move two spaces after first move");
+    lcdString=("can't move two spaces after first move");
     return false;
   }
 
   if (origin_y > target_y){
-    Serial.println("a pawn can't move backwards");
+    lcdString=("a pawn can't move backwards");
     return false;
   }
 
@@ -311,27 +311,27 @@ bool rookcheck(int origin_x, int origin_y, int target_x, int target_y){
 
   // Check if the starting and ending positions are within the bounds of the board
   if (origin_x < 0 || origin_x > 7 || origin_y < 0 || origin_y > 7 || target_x < 0 || target_x > 7 || target_y < 0 || target_y > 7) {
-      Serial.println("out of bounds");
+      lcdString=("out of bounds");
       return false;
   }
 
-  Serial.println(originpiece);
+  lcdString=(originpiece);
 
   // Check if there is a rook at the starting position
   if (originpiece != 2 && originpiece != 8) {
-      Serial.println("this is not a rook");
+      lcdString=("this is not a rook");
       return false;
   }
 
   // Check if the rook is moving to its own position
   if (origin_x == target_x && origin_y == target_y) {
-      Serial.println("you can not move to your own position");
+      lcdString=("you can not move to your own position");
       return false;
   }
 
   // Check if the rook is moving diagonally
   if(origin_x != target_x && origin_y != target_y){
-    Serial.println("rooks can not move diagonally");
+    lcdString=("rooks can not move diagonally");
     return false;
   }
 
@@ -342,7 +342,7 @@ bool rookcheck(int origin_x, int origin_y, int target_x, int target_y){
     int step_y = delta_y > 0 ? 1 : -1;
     for(int i = 1; i < abs(delta_y); i++){
       if(chessBoard[origin_y + i * step_y][origin_x] != 0){
-        Serial.println("there is a piece in the way");
+        lcdString=("there is a piece in the way");
         return false;
       }
     }
@@ -354,7 +354,7 @@ bool rookcheck(int origin_x, int origin_y, int target_x, int target_y){
     int step_x = delta_x > 0 ? 1 : -1;
     for(int i = 1; i < abs(delta_x); i++){
       if(chessBoard[origin_y][origin_x + i * step_x] != 0){
-        Serial.println("there is a piece in the way");
+        lcdString=("there is a piece in the way");
         return false;
       }
     }
@@ -363,22 +363,22 @@ bool rookcheck(int origin_x, int origin_y, int target_x, int target_y){
   // Check if there is an enemy piece at the target position
   if(currentplayer){
     if(targetpiece > 6 && targetpiece <= 12){
-      Serial.println("capturing enemy piece");
+      lcdString="capturing enemy piece";
     }
 
     // Check if there is a friendly piece at the target position
     if(targetpiece > 0 && targetpiece <= 6){
-      Serial.println("can not capture friendly piece");
+      lcdString="can not capture friendly piece";
       return false;
     }
   }else{
     if(targetpiece > 0 && targetpiece <= 6){
-      Serial.println("capturing enemy piece");
+      lcdString="capturing enemy piece";
     }
 
     // Check if there is a friendly piece at the target position
     if(targetpiece > 6 && targetpiece <= 12){
-      Serial.println("can not capture friendly piece");
+      lcdString="can not capture friendly piece";
       return false;
     }
   }
@@ -393,12 +393,12 @@ bool knightCheck(int origin_x, int origin_y, int target_x, int target_y) {
 
   // Check if the starting and ending positions are within the bounds of the board
   if (origin_x < 0 || origin_x > 7 || origin_y < 0 || origin_y > 7 || target_x < 0 || target_x > 7 || target_y < 0 || target_y > 7) {
-    Serial.println("Out of bounds.");
+    lcdString="Out of bounds.";
     return false;
   }
 
   if(originpiece != 3 && originpiece != 9){
-    Serial.println("not a horesy.");
+    lcdString="not a horesy.";
     return false;
   }
 
@@ -407,29 +407,29 @@ bool knightCheck(int origin_x, int origin_y, int target_x, int target_y) {
 
   // Check if the move is a valid L-shape (2 squares in one direction, 1 square in the other)
   if (!((dx == 2 && dy == 1) || (dx == 1 && dy == 2))) {
-    Serial.println("Invalid move for knight.");
+    lcdString="Invalid move for knight.";
     return false;
   }
 
   // Check if there is an enemy piece at the target position
   if(currentplayer){
     if(targetpiece > 6 && targetpiece <= 12){
-      Serial.println("capturing enemy piece");
+      lcdString="capturing enemy piece";
     }
 
     // Check if there is a friendly piece at the target position
     if(targetpiece > 0 && targetpiece <= 6){
-      Serial.println("can not capture friendly piece");
+      lcdString="can not capture friendly piece";
       return false;
     }
   }else{
     if(targetpiece > 0 && targetpiece <= 6){
-      Serial.println("capturing enemy piece");
+      lcdString="capturing enemy piece";
     }
 
     // Check if there is a friendly piece at the target position
     if(targetpiece > 6 && targetpiece <= 12){
-      Serial.println("can not capture friendly piece");
+      lcdString="can not capture friendly piece";
       return false;
     }
   }
@@ -444,25 +444,25 @@ bool bishopCheck(int origin_x, int origin_y, int target_x, int target_y) {
   
   // Check if the starting and ending positions are within the bounds of the board
   if (origin_x < 0 || origin_x > 7 || origin_y < 0 || origin_y > 7 || target_x < 0 || target_x > 7 || target_y < 0 || target_y > 7) {
-    Serial.println("out of bounds");
+    lcdString="out of bounds";
     return false;
   }
   
   // Check if there is a bishop at the starting position
   if (originpiece != 4 && originpiece != 10) {
-    Serial.println("this is not a bishop");
+    lcdString="this is not a bishop";
     return false;
   }
   
   // Check if the bishop is moving to its own position
   if (origin_x == target_x && origin_y == target_y) {
-    Serial.println("you can not move to your own position");
+    lcdString="you can not move to your own position";
     return false;
   }
   
   // Check if the bishop is moving diagonally, not sure about this
   if (abs(origin_x - target_x) != abs(origin_y - target_y)) {
-    Serial.println("this move is not diagonal");
+    lcdString="this move is not diagonal";
     return false;
   }
   
@@ -475,7 +475,7 @@ bool bishopCheck(int origin_x, int origin_y, int target_x, int target_y) {
   
   while (current_x != target_x && current_y != target_y) {
     if (chessBoard[current_y][current_x] != 0) {
-      Serial.println("there is a piece in the way");
+      lcdString="there is a piece in the way";
       return false;
     }
     current_x += x_dir;
@@ -485,14 +485,14 @@ bool bishopCheck(int origin_x, int origin_y, int target_x, int target_y) {
   // Check if the bishop is capturing an enemy piece
   if (targetpiece != 0) {
     if (currentplayer && targetpiece >= 7 && targetpiece <= 12) {
-      Serial.println("capturing an enemy piece");
+      lcdString="capturing an enemy piece";
       return true;
     }
     if (!currentplayer && originpiece <= 12 && targetpiece < 7) {
-      Serial.println("capturing an enemy piece");
+      lcdString="capturing an enemy piece";
       return true;
     }
-    Serial.println("can not capture your own piece");
+    lcdString="can not capture your own piece";
     return false;
   }
   
@@ -507,13 +507,13 @@ bool queenCheck(int origin_x, int origin_y, int target_x, int target_y){
 
   // Check if the starting and ending positions are within the bounds of the board
   if (origin_x < 0 || origin_x > 7 || origin_y < 0 || origin_y > 7 || target_x < 0 || target_x > 7 || target_y < 0 || target_y > 7) {
-      Serial.println("out of bounds");
+      lcdString="out of bounds";
       return false;
   }
 
   // Check if the queen is moving to its own position
   if (origin_x == target_x && origin_y == target_y) {
-      Serial.println("you can not move to your own position");
+      lcdString="you can not move to your own position";
       return false;
   }
 
@@ -521,7 +521,7 @@ bool queenCheck(int origin_x, int origin_y, int target_x, int target_y){
   if (origin_x != target_x && origin_y != target_y) {
       // Check if the queen is moving diagonally
       if (abs(target_x - origin_x) != abs(target_y - origin_y)) {
-          Serial.println("invalid move for queen");
+          lcdString="invalid move for queen";
           return false;
       }
   }
@@ -532,7 +532,7 @@ bool queenCheck(int origin_x, int origin_y, int target_x, int target_y){
       int direction = (target_y - origin_y) / abs(target_y - origin_y);
       for (int i = origin_y + direction; i != target_y; i += direction) {
           if (chessBoard[i][origin_x] != 0) {
-              Serial.println("there is a piece in the way");
+              lcdString="there is a piece in the way";
               return false;
           }
       }
@@ -541,7 +541,7 @@ bool queenCheck(int origin_x, int origin_y, int target_x, int target_y){
       int direction = (target_x - origin_x) / abs(target_x - origin_x);
       for (int i = origin_x + direction; i != target_x; i += direction) {
           if (chessBoard[origin_y][i] != 0) {
-              Serial.println("there is a piece in the way");
+              lcdString="there is a piece in the way";
               return false;
           }
       }
@@ -551,7 +551,7 @@ bool queenCheck(int origin_x, int origin_y, int target_x, int target_y){
       int y_direction = (target_y - origin_y) / abs(target_y - origin_y);
       for (int i = 1; i < abs(target_x - origin_x); i++) {
           if (chessBoard[origin_y + i*y_direction][origin_x + i*x_direction] != 0) {
-              Serial.println("there is a piece in the way");
+              lcdString="there is a piece in the way";
               return false;
           }
       }
@@ -559,23 +559,15 @@ bool queenCheck(int origin_x, int origin_y, int target_x, int target_y){
 
   // Check if the queen is capturing an enemy piece
   if(currentplayer){
-    if(targetpiece > 6 && targetpiece <= 12){
-      Serial.println("capturing enemy piece");
-    }
-
     // Check if there is a friendly piece at the target position
     if(targetpiece > 0 && targetpiece <= 6){
-      Serial.println("can not capture friendly piece");
+      lcdString="can not capture friendly piece";
       return false;
     }
   }else{
-    if(targetpiece > 0 && targetpiece <= 6){
-      Serial.println("capturing enemy piece");
-    }
-
     // Check if there is a friendly piece at the target position
     if(targetpiece > 6 && targetpiece <= 12){
-      Serial.println("can not capture friendly piece");
+      lcdString="can not capture friendly piece";
       return false;
     }
   }
@@ -590,41 +582,41 @@ bool kingCheck(int origin_x, int origin_y, int target_x, int target_y){
 
   // Check if the starting and ending positions are within the bounds of the board
   if (origin_x < 0 || origin_x > 7 || origin_y < 0 || origin_y > 7 || target_x < 0 || target_x > 7 || target_y < 0 || target_y > 7) {
-      Serial.println("out of bounds");
+      lcdString="out of bounds";
       return false;
   }
 
   // Check if there is a king at the starting position
   if (originpiece != 12 && originpiece != 6) {
-      Serial.println("this is not a king");
+      lcdString="this is not a king";
       return false;
   }
 
   // Check if the king is moving to its own position
   if (origin_x == target_x && origin_y == target_y) {
-      Serial.println("you can not move to your own position");
+      lcdString="you can not move to your own position";
       return false;
   }
 
   // Check if the king  is capturing an enemy piece
   if(currentplayer){
     if(targetpiece > 6 && targetpiece <= 12){
-      Serial.println("capturing enemy piece");
+      lcdString="capturing enemy piece";
     }
 
     // Check if there is a friendly piece at the target position
     if(targetpiece > 0 && targetpiece <= 6){
-      Serial.println("can not capture friendly piece");
+      lcdString="can not capture friendly piece";
       return false;
     }
   }else{
     if(targetpiece > 0 && targetpiece <= 6){
-      Serial.println("capturing enemy piece");
+      lcdString="capturing enemy piece";
     }
 
     // Check if there is a friendly piece at the target position
     if(targetpiece > 6 && targetpiece <= 12){
-      Serial.println("can not capture friendly piece");
+      lcdString="Can't capture your own pieces";
       return false;
     }
   }
@@ -649,22 +641,22 @@ bool kingCheck(int origin_x, int origin_y, int target_x, int target_y){
               int rook_target[2] = {4, 7};
               swap(8, 7, 7, 4, 7);
               // check is finished
-              Serial.println("casteling epic.");
+              lcdString="casteling epic.";
               return true;
             }else{
-              Serial.println("Other pieces in the way");
+              lcdString="Other pieces in the way";
               return false;
             }
           }else{
-            Serial.println("there are pieces in the way");
+            lcdString="there are pieces in the way";
             return false;
           }
         }else{
-          Serial.println("casteling no longer allowed like that");
+          lcdString="casteling no longer allowed like that";
           return false;
         }
       }else{
-        Serial.println("Can not castle while in check");
+        lcdString="Can't castle while in check";
         return false;
     }
     // check for other casteling option
@@ -682,22 +674,22 @@ bool kingCheck(int origin_x, int origin_y, int target_x, int target_y){
               //move the rook
               swap(8, 0, 7, 2, 7);
               // check is finished
-              Serial.println("casteling epic.");
+              lcdString="casteling epic";
               return true;
             }else{
-              Serial.println("Other pieces in the way");
+              lcdString="Other pieces in the way";
               return false;
             }
           }else{
-            Serial.println("there are pieces in the way");
+            lcdString="there are pieces in the way";
             return false;
           }
         }else{
-          Serial.println("casteling no longer allowed like that.");
+          lcdString="casteling no longer allowed like that.";
           return false;
         }
       }else{
-          Serial.println("Can not castle while in check");
+          lcdString="Can't castle while in check";
           return false;
       }
     }
@@ -718,22 +710,22 @@ bool kingCheck(int origin_x, int origin_y, int target_x, int target_y){
               //move the rook
               swap(2, 7, 0, 4, 0);
               // check is finished
-              Serial.println("casteling epic.");
+              lcdString="casteling epic!";
               return true;
             }else{
-              Serial.println("Other pieces in the way");
+              lcdString="Other pieces in the way";
               return false;
             }
           }else{
-            Serial.println("there are pieces in the way");
+            lcdString = "there are pieces in the way";
             return false;
           }
         }else{
-          Serial.println("casteling no longer allowed like that.");
+          lcdString = "casteling no longer allowed like that.";
           return false;
         }
       }else{
-        Serial.println("Can not castle while in check");
+        lcdString = "Can't castle while in check";
         return false;
       }
     // check for other casteling option
@@ -751,22 +743,22 @@ bool kingCheck(int origin_x, int origin_y, int target_x, int target_y){
               // move the rook
               swap(2, 0, 0, 2, 0);
               // check is finished
-              Serial.println("casteling epic.");
+              lcdString=("casteling epic.");
               return true;
             }else{
-              Serial.println("Other pieces in the way");
+              lcdString=("Other pieces in the way");
               return false;
             }
           }else{
-            Serial.println("there are pieces in the way");
+            lcdString=("there are pieces in the way");
             return false;
           }
         }else{
-          Serial.println("casteling no longer allowed like that.");
+          lcdString=("casteling no longer allowed like that.");
           return false;
         }
       }else{
-        Serial.println("Can not castle while in check");
+        lcdString=("Can not castle while in check");
         return false;
       }      
     }
@@ -782,7 +774,7 @@ bool kingCheck(int origin_x, int origin_y, int target_x, int target_y){
   }
 
   // Invalid move
-  Serial.println("invalid move for a king");
+  lcdString = "invalid move for a king";
   return false;
 }
 
@@ -813,7 +805,7 @@ bool KingCloseCheck(int target_x, int target_y){
   }
   // check if kings to close
   if (abs(otherKingX - target_x) <= 1 && abs(otherKingY - target_y) <= 1) {
-      Serial.println("two kings can't get too close to each other");
+      lcdString = "two kings can't get too close to each other";
       return false;
   }
 

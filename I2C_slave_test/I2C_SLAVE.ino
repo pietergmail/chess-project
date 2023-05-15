@@ -10,14 +10,23 @@ void requestEvent() {
     }
     currentArray = 2; // Set the flag variable to 2 for the next time
   }
-  else {
+  else if (currentArray == 2) {
     Serial.println("sending array 2");
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 8; j++) {
         Wire.write(myArray2[i][j]);
       }
     }
+    currentArray = 3; // Set the flag variable to 1 for the next time
+  }else{
+    char buffer[64];
+    lcdString.toCharArray(buffer, 64);
+    buffer[64-1] = '\0'; // make sure buffer is null-terminated
+    Serial.println("sending LCD data");
+    Wire.write(buffer);
     currentArray = 1; // Set the flag variable to 1 for the next time
+    // clean out lcdString
+    lcdString = "";
   }
 }
 

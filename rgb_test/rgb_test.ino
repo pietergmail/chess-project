@@ -10,6 +10,7 @@ int pieces1[4][8]; // top half
 int pieces2[4][8]; // bottom half
 int pieces[8][8]; //full chess board
 char coordinates[2]; // coordinates used for sending
+String lcd = "";
 
 void setup() {
   Wire.begin();        // join i2c bus (address optional for master)
@@ -39,6 +40,10 @@ void loop() {
   // receive new board
   receiveData();
   combineArrays(pieces1, pieces2, pieces);
+
+  // receive string for lcd
+  // receiveDataC();
+  
   
   // print data to the the led array
   ArrayToLeds(pieces);

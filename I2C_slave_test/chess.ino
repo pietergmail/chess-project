@@ -162,7 +162,3 @@ void castelingflag(int currentpiece, int origin_x, int origin_y, int target_x, i
   }
 }
 
-void gameEnd(){
-  Serial.println("MATE");
-}
-

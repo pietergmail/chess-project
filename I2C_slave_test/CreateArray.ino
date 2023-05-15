@@ -2,8 +2,12 @@
 void generateArray() {
   // logic to move the piece
   movePiece(arr1, arr2);
+  // print out error
+  Serial.println(lcdString);
   // split the newly generated array in 2
   splitArray(chessBoard, myArray1, myArray2);
+
+
 }
 
 // Function that splits the array in 2
