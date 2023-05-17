@@ -34,23 +34,23 @@ void receiveData() {
 
   // request data for the lcd()
   Wire.requestFrom(I2C_ADDRESS, 64);
-  uint8_t buffer[64];
+  uint8_t buffer[32];
   uint8_t i = 0;
   while (Wire.available()) {
     buffer[i++] = Wire.read();
   }
 
   // build string from data
-  lcd = "";
-  for (uint8_t j = 0; j < 64; j++) {
+  lcdstring = "";
+  for (uint8_t j = 0; j < 32; j++) {
     if (isPrintable(buffer[j])) {
-      lcd += char(buffer[j]);
+      lcdstring += char(buffer[j]);
     } else {
       // if not printable, string done
       break;
     }
   }
-  Serial.println(lcd);
+  Serial.println(lcdstring);
 }
 
 void combineArrays(int arr1[4][8], int arr2[4][8], int arr3[8][8]) {

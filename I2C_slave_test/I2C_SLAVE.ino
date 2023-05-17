@@ -19,9 +19,9 @@ void requestEvent() {
     }
     currentArray = 3; // Set the flag variable to 1 for the next time
   }else{
-    char buffer[64];
-    lcdString.toCharArray(buffer, 64);
-    buffer[64-1] = '\0'; // make sure buffer is null-terminated
+    char buffer[32];
+    lcdString.toCharArray(buffer, 32);
+    buffer[32-1] = '\0'; // make sure buffer is null-terminated
     Serial.println("sending LCD data");
     Wire.write(buffer);
     currentArray = 1; // Set the flag variable to 1 for the next time

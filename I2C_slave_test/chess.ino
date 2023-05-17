@@ -93,6 +93,13 @@ void movePiece(char startPos[], char endPos[]) {
       if(originpiece == 1){
         promotioncheck();
       }
+
+      if(lcdString == ""){
+        // build the string for the lcd
+        String StartcoordinatesString = String(startPos[0]) + String(startPos[1]);
+        String EndcoordinatesString = String(endPos[0]) + String(endPos[1]);
+        lcdString = "Moved: " + StartcoordinatesString + " to " + EndcoordinatesString + " Player: White";
+      }
     }
   }else{
     // check if the move is valid white
@@ -107,6 +114,12 @@ void movePiece(char startPos[], char endPos[]) {
       // check if a pawn has reached the end of the board
       if(originpiece == 7){
         promotioncheck();
+      }
+      if(lcdString == ""){
+        // build the string for the lcd
+        String StartcoordinatesString = String(startPos[0]) + String(startPos[1]);
+        String EndcoordinatesString = String(endPos[0]) + String(endPos[1]);
+        lcdString = "Moved: " + StartcoordinatesString + " to " + EndcoordinatesString + " Player: Black";
       }
     }
   }
